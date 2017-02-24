@@ -1,0 +1,21 @@
+{
+  "name": "ionic-hello-world",
+  "description": "myApp: An Ionic project",
+  "main": "",
+  "authors": [
+    "Ionic Framework"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/mikeplavsky/ionic-test",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "aws-sdk": "aws-sdk-js#^2.19.0"
+  }
+}
