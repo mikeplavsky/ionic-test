@@ -7,8 +7,8 @@ import { configOverridesGenerated } from './config-overrides-generated'
 
 const Config = {
 
-  USER_POOL_ID:               'us-east-1_XWrI9RV17',
-  CLIENT_ID:                  '3dtdumg0i1jrvv23lorfmrlk3l',
+  USER_POOL_ID:               'us-east-1_VMGTwHwou',
+  CLIENT_ID:                  '13vummj0f46giap5s3i33rt40b',
   IDENTITY_POOL_ID:           'us-east-1:992b6d88-74c2-4d5a-9dcd-25e37fa0ff45',
   REGION:                     'us-east-1',  // Your AWS region where you setup your Cognito User Pool and Federated Identities
 

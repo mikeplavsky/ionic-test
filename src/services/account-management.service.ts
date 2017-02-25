@@ -24,6 +24,7 @@ export interface IUserRegistration {
 export interface IUserLogin {
   username?: string;
   password?: string;
+  newPassword?: string;
 }
 
 interface IUserAttribute {
@@ -384,6 +385,10 @@ export class UserLoginService {
             CognitoUtil.setUserState(UserState.InvalidCredentials);
           }
           reject(err);
+        },
+        newPasswordRequired: function(userAttributes, requiredAttributes) {
+            delete userAttributes.email_verified;
+            cognitoUser.completeNewPasswordChallenge(userLogin.newPassword, userAttributes, this)
         }
       });
     });
@@ -400,6 +405,7 @@ export class UserLoginService {
 
   public static globalSignOut() {
     // Clear local user state
+      // UserLoginService
     UserLoginService.clearUserState();
     // Logout from Cognito service
     CognitoUtil.getCognitoUser().globalSignOut();

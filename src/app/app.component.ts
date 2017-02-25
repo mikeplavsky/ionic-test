@@ -4,7 +4,9 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { Page1 } from '../pages/page1/page1';
 import { Page2 } from '../pages/page2/page2';
+
 import { AccountSigninPage } from "../pages/account-signin/account-signin"
+import { AccountChangePwd } from "../pages/account-change-pwd/account-change-pwd"
 
 import { GlobalStateService } from '../services/global-state.service';
 
@@ -25,6 +27,7 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Sign In', component: AccountSigninPage },
+      { title: 'Change Password', component: AccountChangePwd },
       { title: 'Page One', component: Page1 },
       { title: 'Page Two', component: Page2 }
     ];
