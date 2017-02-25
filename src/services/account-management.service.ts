@@ -4,6 +4,7 @@ import {Logger} from './logger.service';
 import * as sjcl from 'sjcl';
 
 declare const AWS: any;
+declare const AWSCognito: any;
 
 export enum UserState {
   SignedOut = 0,
@@ -109,8 +110,8 @@ export class CognitoUtil {
       UserPoolId: CognitoUtil._USER_POOL_ID,
       ClientId: CognitoUtil._CLIENT_ID
     };
-    AWS.config.region = CognitoUtil._REGION;
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    AWSCognito.config.region = CognitoUtil._REGION;
+    AWSCognito.config.credentials = new AWS.CognitoIdentityCredentials({
       IdentityPoolId: CognitoUtil._IDENTITY_POOL_ID
     });
 
@@ -121,8 +122,8 @@ export class CognitoUtil {
     });
 
     // Initialize AWS config object with dummy keys - required if unauthenticated access is not enabled for identity pool
-    AWS.config.update({accessKeyId: 'dummyvalue', secretAccessKey: 'dummyvalue'});
-    return new AWS.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+    AWSCognito.config.update({accessKeyId: 'dummyvalue', secretAccessKey: 'dummyvalue'});
+    return new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
   }
 
   public static getCognitoUser() {
@@ -132,7 +133,7 @@ export class CognitoUtil {
       Username: username,
       Pool: CognitoUtil.getUserPool()
     };
-    return new AWS.CognitoIdentityServiceProvider.CognitoUser(userData);
+    return new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
   }
 
   public static getCurrentUser() {
@@ -162,9 +163,9 @@ export class UserRegistrationService {
       Value: signUpData.familyName
     };
 
-    let attributeEmail = new AWS.CognitoIdentityServiceProvider.CognitoUserAttribute(dataEmail);
-    let attributeGivenName = new AWS.CognitoIdentityServiceProvider.CognitoUserAttribute(dataGivenName);
-    let attributeFamilyName = new AWS.CognitoIdentityServiceProvider.CognitoUserAttribute(dataFamilyName);
+    let attributeEmail = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(dataEmail);
+    let attributeGivenName = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(dataGivenName);
+    let attributeFamilyName = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(dataFamilyName);
 
     attributeList.push(attributeEmail);
     attributeList.push(attributeGivenName);
@@ -212,7 +213,7 @@ export class UserRegistrationService {
     };
 
     let promise: Promise<void> = new Promise<void>((resolve, reject) => {
-      new AWS.CognitoIdentityServiceProvider().resendConfirmationCode(cognitoParams, (err: Error, data: any) => {
+      new AWSCognito.CognitoIdentityServiceProvider().resendConfirmationCode(cognitoParams, (err: Error, data: any) => {
         if (err) {
           reject(err);
           return;
@@ -309,7 +310,7 @@ export class UserLoginService {
       Password: userLogin.password
     };
 
-    let authenticationDetails = new AWS.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
+    let authenticationDetails = new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
 
     // Set user name
     CognitoUtil.setUsername(userLogin.username);
