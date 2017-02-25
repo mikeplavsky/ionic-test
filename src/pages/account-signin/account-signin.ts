@@ -2,11 +2,14 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { GlobalStateService } from '../../services/global-state.service';
+
 import {
   UserLoginService, IUserLogin, UserState,
   UserRegistrationService, CognitoUtil
 } from '../../services/account-management.service';
+
 import { Logger } from '../../services/logger.service';
+import { Page1 } from '../../pages/page1/page1';
 
 @Component({
   templateUrl: 'account-signin.html',
@@ -18,8 +21,8 @@ export class AccountSigninPage {
   alertCtrl : AlertController = this.globals.getAlertController();
 
   public userData: IUserLogin = {
-    username: "user1",
-    password: "Test123!"
+    username: "",
+    password: ""
   };
 
   signInButtonClicked: boolean = false;
@@ -47,10 +50,12 @@ export class AccountSigninPage {
       // Login was successful
       this.globals.dismissLoader();
       this.showLoginSuccessAlert(this.userData.username, () => {
+        
         this.globals.userId = this.globals.getUserId();
         this.globals.setViewAdminFeaturesOverride(this.globals.isAdminRole());
-        this.navCtrl.popToRoot({animate: false});
-        // this.navCtrl.push(WelcomePage);
+
+        this.navCtrl.setRoot(Page1);
+
       });
     }).catch((err: Error): void => {
       // Login was unsuccessful

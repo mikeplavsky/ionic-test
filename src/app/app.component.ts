@@ -17,14 +17,13 @@ import { GlobalStateService } from '../services/global-state.service';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = Page1;
+  rootPage = Page1;
 
   pages: Array<{title: string, component: any}>;
 
   constructor(public platform: Platform) {
     this.initializeApp();
 
-    // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Sign In', component: AccountSigninPage },
       { title: 'Change Password', component: AccountChangePwd },
