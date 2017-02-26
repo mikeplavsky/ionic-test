@@ -3,31 +3,52 @@ import { Page1 } from '../../pages/page1/page1';
 
 import { NavController, NavParams } from 'ionic-angular';
 
+declare const AWS: any;
+
 @Component({
   selector: 'page-page2',
   templateUrl: 'page2.html'
 })
 export class Page2 {
+
   selectedItem: any;
   icons: string[];
   items: Array<{title: string, note: string, icon: string}>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    // If we navigated to this page, we will have an item available as a nav param
-    this.selectedItem = navParams.get('item');
 
-    // Let's populate this page with some filler content for funzies
+    let s3 = new AWS.S3();
+    
+    let params = {
+        Bucket: "mp-web-logs"
+    };
+
     this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
     'american-football', 'boat', 'bluetooth', 'build'];
 
     this.items = [];
-    for (let i = 1; i < 11; i++) {
-      this.items.push({
-        title: 'Item ' + i,
-        note: 'This is item #' + i,
-        icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-      });
-    }
+
+    s3.listObjectsV2(params, (err,data) => {
+        
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        let objects = data.Contents;
+
+        objects.forEach((obj)=>{
+
+            this.items.push({
+              title: obj.Key,
+              note: 'This is item #',
+              icon: this.icons[Math.floor(Math.random() * this.icons.length)]
+            });
+
+        })
+
+    });
+
   }
 
   itemTapped(event, item) {
