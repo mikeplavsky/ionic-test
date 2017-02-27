@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Page1 } from '../../pages/page1/page1';
 
 import { NavController, NavParams } from 'ionic-angular';
+import { UserLoginService } from "../../services/account-management.service";
 
 declare const AWS: any;
 
@@ -15,7 +16,7 @@ export class Page2 {
   icons: string[];
   items: Array<{title: string, note: string, icon: string}>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  getItems(){
 
     let s3 = new AWS.S3();
     
@@ -48,6 +49,17 @@ export class Page2 {
         })
 
     });
+  }
+
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
+
+    UserLoginService.getAwsCredentials().then(()=>{
+        console.log("got credentials.");
+        this.getItems();
+    }).
+    catch((err)=>{
+        console.log(err);
+    });    
 
   }
 
